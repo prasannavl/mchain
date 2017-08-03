@@ -145,7 +145,7 @@ func RequestIDMustInitHandler(next mchain.Handler) mchain.Handler {
 			// goerror package that communicates error
 			// along with status codes, in a clean way.
 			//
-			// return goerror.NewHttp(400, msg, true)
+			// return httperror.New(400, msg, true)
 		}
 		var uid uuid.UUID
 		mustNewUUID(&uid)
