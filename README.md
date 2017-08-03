@@ -5,6 +5,10 @@ A super tiny go subpackage that handles middleware chaining in it's most minimal
 **Godoc:** https://godoc.org/github.com/prasannavl/mchain  
 PS: `Read the source, Luke` - it's tiny.
 
+## Get
+
+`go get -u github.com/prasannavl/mchain`
+
 ## Standard middlewares
 
 ```go
