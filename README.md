@@ -54,9 +54,9 @@ if err != nil {
 }
 ```
 
-I personally think somewhere on it's way - the standard library team got stuck between the choice between simplicity and consistency - and they seem to have chosen the former. And now it's stuck - you can't just go back and change the standard way even if the other is deemed better.
+I personally think somewhere on it's way - the standard library team got stuck in the choice between simplicity and consistency - and they seem to have chosen the former. And now it's stuck - you can't just go back and change the standard way even if the other is deemed better.
 
-But, you don't have to choose. You can combine both :)
+But thankfully, you don't have to choose. You can combine both :)
 
 `mchain` brings this pattern with almost no overhead. And it has a set of conversation functions that provide two way conversions between the standard `net/http` package, and `mchain`, like `MiddlewareFromHttp` and `MiddlewareToHttp`, `HandlerFromHttp`, and `HandlerToHttp` - that allows both to coexist, and mix and match both types of handlers.
 
