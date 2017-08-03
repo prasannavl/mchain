@@ -36,7 +36,7 @@ func (f HandlerFunc) ServeHTTP(w http.ResponseWriter, r *http.Request) error {
 }
 ```
 
-Actually, that's the entire `mchain.go` file. Very simple. This allows clean error handling. Errors can be used to communicate error status code as well. A pattern that can be easily achieved with `HttpError` in another minimal `goerror` package - http://www.github.com/prasannavl/goerror
+Actually, that's the entire `mchain.go` file. Very simple. This allows clean error handling. Errors can be used to communicate error status code as well. A pattern that can be easily achieved with `HttpError` from simple error composers like [`goerror` package](https://www.github.com/prasannavl/goerror)
 
 This aligns with Go's idiomatic way of error handling.
 
