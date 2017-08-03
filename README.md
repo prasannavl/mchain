@@ -47,7 +47,7 @@ if err != nil {
 }
 ```
 
-I personally think somewhere on it's way - the standard library team got stuck between the choice between simplicity and consistency - and they seem to have chosen the former. And now it's stuck - you can't just go back and change it.
+I personally think somewhere on it's way - the standard library team got stuck between the choice between simplicity and consistency - and they seem to have chosen the former. And now it's stuck - you can't just go back and change the standard way even if the other is deemed better.
 
 But, you don't have to choose. You can combine both :)
 
@@ -100,7 +100,7 @@ func CreateActionHandler(host string) http.Handler {
 
 ```
 
-### Why return errors along with the handler
+## Why return errors along with the handler?
 
 Consider a similar middleware setup to above example
 
@@ -123,7 +123,7 @@ func RequestIDMustInitHandler(next http.Handler) http.Handler {
 }
 ```
 
-The problem? `http.Error` writes directly. What if this was a JSON api, or a GRPC based API? Writing a plain text error is a problem. Or alternatively, you need to write an exclusive error handling method that's used across everywhere that has intimate knowledge of the pipeline path.
+The problem? `http.Error` writes directly. What if this was a JSON api, or a gRPC based API? Writing a plain text error is a problem. Or alternatively, you need to write an exclusive error handling method that's used across everywhere that has intimate knowledge of the pipeline path.
 
 Now, using `mchain` handlers:
 
