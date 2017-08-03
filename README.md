@@ -2,6 +2,11 @@
 
 A super tiny go subpackage that handles middleware chaining in it's most minimal form. 
 
+## Documentation
+
+**Godoc:** https://godoc.org/github.com/prasannavl/mchain
+PS: `Read the source, Luke` - it's tiny.
+
 ## Standard middlewares
 
 ```go
@@ -149,6 +154,4 @@ func RequestIDMustInitHandler(next mchain.Handler) mchain.Handler {
 }
 ```
 
-Now, the errors can be handled up the middleware chain with an error handler that knows who to format the error the way it has to. Works naturally with the chain.
-
-**Where's the documentation?** - Read the source, Luke - it's tiny.
+Now, the errors can be handled up the middleware chain with an error handler that knows how to format the error the way it has to. Works naturally with the chain, without thinking about how to handle the error in every aspect of the middleware - when in doubt, pass it up the chain.
