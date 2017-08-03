@@ -1,6 +1,6 @@
 # mchain
 
-A super tiny go subpackage that handles middleware chaining in it's most minimal form. 
+A super tiny go package that handles middleware chaining in it's most minimal form. 
 
 **Godoc:** https://godoc.org/github.com/prasannavl/mchain  
 PS: `Read the source, Luke` - it's tiny.
