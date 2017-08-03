@@ -2,7 +2,7 @@
 
 A super tiny go subpackage that handles middleware chaining in it's most minimal form. 
 
-**Godoc:** https://godoc.org/github.com/prasannavl/mchain
+**Godoc:** https://godoc.org/github.com/prasannavl/mchain  
 PS: `Read the source, Luke` - it's tiny.
 
 ## Standard middlewares
