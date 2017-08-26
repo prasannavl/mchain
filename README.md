@@ -90,7 +90,7 @@ func(w http.ResponseWriter, r *http.Request, next *Handler) error {
 }
 ```
 
-If you've used Nogroni - you'll recognize that instantly. This is called using the helper `CreateMiddleware` that simply converts this pattern into the pure form without any extra overhead. Infact, this is also provided for pure http middleware (`CreateHttpMiddleware`), so you can make it similar to negroni middleware.
+If you've used Negroni - you'll recognize that instantly. This is called using the helper `MiddlewareFrom` that simply converts this pattern into the pure form without any extra overhead. Infact, this is also provided for pure http middleware (`HttpMiddlewareFrom`), so you can make it similar to negroni middleware.
 
 
 ### Example

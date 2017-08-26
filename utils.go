@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func CreateMiddleware(fn func(w http.ResponseWriter, r *http.Request, next Handler) error) Middleware {
+func MiddlewareFrom(fn func(w http.ResponseWriter, r *http.Request, next Handler) error) Middleware {
 	m := func(next Handler) Handler {
 		f := func(w http.ResponseWriter, r *http.Request) error {
 			return fn(w, r, next)
@@ -15,7 +15,7 @@ func CreateMiddleware(fn func(w http.ResponseWriter, r *http.Request, next Handl
 	return m
 }
 
-func CreateHttpMiddleware(fn func(w http.ResponseWriter, r *http.Request, next http.Handler)) HttpMiddleware {
+func HttpMiddlewareFrom(fn func(w http.ResponseWriter, r *http.Request, next http.Handler)) HttpMiddleware {
 	m := func(next http.Handler) http.Handler {
 		f := func(w http.ResponseWriter, r *http.Request) {
 			fn(w, r, next)

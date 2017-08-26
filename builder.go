@@ -19,7 +19,7 @@ func (b ChainBuilder) Add(m ...Middleware) ChainBuilder {
 func (b ChainBuilder) AddSimple(m ...SimpleMiddleware) ChainBuilder {
 	s := make([]Middleware, 0, len(m))
 	for _, x := range m {
-		s = append(s, CreateMiddleware(x))
+		s = append(s, MiddlewareFrom(x))
 	}
 	b.chain.Middlewares = append(b.chain.Middlewares, s...)
 	return b
