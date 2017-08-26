@@ -5,6 +5,26 @@ import (
 	"net/http"
 )
 
+func CreateMiddleware(fn func(w http.ResponseWriter, r *http.Request, next Handler) error) Middleware {
+	m := func(next Handler) Handler {
+		f := func(w http.ResponseWriter, r *http.Request) error {
+			return fn(w, r, next)
+		}
+		return HandlerFunc(f)
+	}
+	return m
+}
+
+func CreateHttpMiddleware(fn func(w http.ResponseWriter, r *http.Request, next http.Handler)) HttpMiddleware {
+	m := func(next http.Handler) http.Handler {
+		f := func(w http.ResponseWriter, r *http.Request) {
+			fn(w, r, next)
+		}
+		return http.HandlerFunc(f)
+	}
+	return m
+}
+
 func HandlerFuncToHttp(h HandlerFunc, errorHandler func(error)) http.HandlerFunc {
 	hh := func(w http.ResponseWriter, r *http.Request) {
 		err := h.ServeHTTP(w, r)
@@ -73,15 +93,15 @@ func MiddlewareFromHttpRecoverable(h func(http.Handler) http.Handler, innerError
 	return Middleware(hh)
 }
 
-func RecoverIntoError(errPointer *error) {
+func RecoverIntoError(pointerToError *error) {
 	if r := recover(); r != nil {
 		switch x := r.(type) {
 		case error:
-			*errPointer = x
+			*pointerToError = x
 		case string:
-			*errPointer = errors.New(x)
+			*pointerToError = errors.New(x)
 		default:
-			*errPointer = errors.New("unknown panic")
+			*pointerToError = errors.New("unknown panic")
 		}
 	}
 }

@@ -3,6 +3,7 @@ package mchain
 import "net/http"
 
 type HttpMiddleware func(http.Handler) http.Handler
+type SimpleHttpMiddleware func(w http.ResponseWriter, r *http.Request, next http.Handler)
 
 type HttpChain struct {
 	Middlewares []HttpMiddleware
@@ -13,13 +14,21 @@ type HttpChainBuilder struct {
 	handler http.Handler
 }
 
-func NewHttpBuilder(middlewares ...HttpMiddleware) HttpChainBuilder {
+func CreateHttpBuilder(middlewares ...HttpMiddleware) HttpChainBuilder {
 	return HttpChainBuilder{HttpChain{middlewares}, nil}
 }
 
 func (b HttpChainBuilder) Add(m ...HttpMiddleware) HttpChainBuilder {
-	c := b.chain
-	c.Middlewares = append(c.Middlewares, m...)
+	b.chain.Middlewares = append(b.chain.Middlewares, m...)
+	return b
+}
+
+func (b HttpChainBuilder) AddSimple(m ...SimpleHttpMiddleware) HttpChainBuilder {
+	s := make([]HttpMiddleware, 0, len(m))
+	for _, x := range m {
+		s = append(s, CreateHttpMiddleware(x))
+	}
+	b.chain.Middlewares = append(b.chain.Middlewares, s...)
 	return b
 }
 

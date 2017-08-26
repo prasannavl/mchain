@@ -7,13 +7,21 @@ type ChainBuilder struct {
 	handler Handler
 }
 
-func NewBuilder(middlewares ...Middleware) ChainBuilder {
+func CreateBuilder(middlewares ...Middleware) ChainBuilder {
 	return ChainBuilder{Chain{middlewares}, nil}
 }
 
 func (b ChainBuilder) Add(m ...Middleware) ChainBuilder {
-	c := b.chain
-	c.Middlewares = append(c.Middlewares, m...)
+	b.chain.Middlewares = append(b.chain.Middlewares, m...)
+	return b
+}
+
+func (b ChainBuilder) AddSimple(m ...SimpleMiddleware) ChainBuilder {
+	s := make([]Middleware, 0, len(m))
+	for _, x := range m {
+		s = append(s, CreateMiddleware(x))
+	}
+	b.chain.Middlewares = append(b.chain.Middlewares, s...)
 	return b
 }
 

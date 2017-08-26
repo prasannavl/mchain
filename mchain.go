@@ -12,6 +12,7 @@ type Handler interface {
 type HandlerFunc func(http.ResponseWriter, *http.Request) error
 
 type Middleware func(Handler) Handler
+type SimpleMiddleware func(http.ResponseWriter, *http.Request, Handler) error
 
 type Chain struct {
 	Middlewares []Middleware
