@@ -60,6 +60,39 @@ But thankfully, you don't have to choose. You can combine both :)
 
 `mchain` brings this pattern with almost no overhead. And it has a set of conversation functions that provide two way conversions between the standard `net/http` package, and `mchain`, like `MiddlewareFromHttp` and `MiddlewareToHttp`, `HandlerFromHttp`, and `HandlerToHttp` - that allows both to coexist, and mix and match both types of handlers.
 
+
+### Pure Middleware
+
+```go
+func RequestDurationHandler(next mchain.Handler) mchain.Handler {
+	f := func(w http.ResponseWriter, r *http.Request) error {
+		c := reqcontext.FromRequest(r)
+		c.StartTime = time.Now()
+		err := next.ServeHTTP(w, r)
+		c.EndTime = time.Now()
+		return err
+	}
+	return mchain.HandlerFunc(f)
+}
+```
+
+When you want purity, you can use that. But that's too much boilerplate for everyday use. So, moving on to a helper.
+
+### Simple Middlewqre
+
+```go
+func(w http.ResponseWriter, r *http.Request, next *Handler) error {
+		c := reqcontext.FromRequest(r)
+		c.StartTime = time.Now()
+		err := next.ServeHTTP(w, r)
+		c.EndTime = time.Now()
+		return err
+}
+```
+
+If you've used Nogroni - you'll recognize that instantly. This is called using the helper `CreateMiddleware` that simply converts this pattern into the pure form without any extra overhead. Infact, this is also provided for pure http middleware (`CreateHttpMiddleware`), so you can make it similar to negroni middleware.
+
+
 ### Example
 
 ```go
@@ -67,7 +100,7 @@ But thankfully, you don't have to choose. You can combine both :)
 func newAppHandler(host string) http.Handler {
 	c := appcontext.AppContext{Services: appcontext.Services{}}
 
-	return mchain.NewBuilder(
+	return mchain.CreateBuilder(
 		// An existing http handler based middleware
 		mchain.MiddlewareFromHttp(c.HandlerWithContext, nil),
 		middleware.RequestContextInitHandler,
@@ -81,7 +114,7 @@ func newAppHandler(host string) http.Handler {
 func newHttpAppHandler(host string) http.Handler {
 	c := appcontext.AppContext{Services: appcontext.Services{}}
 
-	return mchain.NewHttpBuilder(
+	return mchain.CreateHttpBuilder(
 		c.HandlerWithContext,
 		standardmiddleware.RequestContextInitHandler,
 		standardmiddleware.RequestLogHandler,
