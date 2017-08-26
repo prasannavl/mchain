@@ -78,7 +78,7 @@ func RequestDurationHandler(next mchain.Handler) mchain.Handler {
 
 When you want purity, you can use that. But that's too much boilerplate for everyday use. So, moving on to a helper.
 
-### Simple Middlewqre
+### Simple Middleware
 
 ```go
 func(w http.ResponseWriter, r *http.Request, next *Handler) error {
