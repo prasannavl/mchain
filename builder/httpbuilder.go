@@ -16,12 +16,12 @@ func CreateHttp(middlewares ...mchain.HttpMiddleware) HttpChainBuilder {
 	return HttpChainBuilder{mchain.HttpChain{middlewares}, nil}
 }
 
-func (b HttpChainBuilder) Add(m ...mchain.HttpMiddleware) HttpChainBuilder {
+func (b *HttpChainBuilder) Add(m ...mchain.HttpMiddleware) *HttpChainBuilder {
 	b.chain.Middlewares = append(b.chain.Middlewares, m...)
 	return b
 }
 
-func (b HttpChainBuilder) AddSimple(m ...mchain.SimpleHttpMiddleware) HttpChainBuilder {
+func (b *HttpChainBuilder) AddSimple(m ...mchain.SimpleHttpMiddleware) *HttpChainBuilder {
 	s := make([]mchain.HttpMiddleware, 0, len(m))
 	for _, x := range m {
 		s = append(s, mconv.HttpFrom(x))
@@ -30,12 +30,12 @@ func (b HttpChainBuilder) AddSimple(m ...mchain.SimpleHttpMiddleware) HttpChainB
 	return b
 }
 
-func (b HttpChainBuilder) Handler(finalHandler http.Handler) HttpChainBuilder {
+func (b *HttpChainBuilder) Handler(finalHandler http.Handler) *HttpChainBuilder {
 	b.handler = finalHandler
 	return b
 }
 
-func (b HttpChainBuilder) Build() http.Handler {
+func (b *HttpChainBuilder) Build() http.Handler {
 	h := b.handler
 	if h == nil {
 		h = http.DefaultServeMux

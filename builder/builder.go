@@ -17,12 +17,12 @@ func Create(middlewares ...mchain.Middleware) ChainBuilder {
 	return ChainBuilder{mchain.Chain{middlewares}, nil}
 }
 
-func (b ChainBuilder) Add(m ...mchain.Middleware) ChainBuilder {
+func (b *ChainBuilder) Add(m ...mchain.Middleware) *ChainBuilder {
 	b.chain.Middlewares = append(b.chain.Middlewares, m...)
 	return b
 }
 
-func (b ChainBuilder) AddSimple(m ...mchain.SimpleMiddleware) ChainBuilder {
+func (b *ChainBuilder) AddSimple(m ...mchain.SimpleMiddleware) *ChainBuilder {
 	s := make([]mchain.Middleware, 0, len(m))
 	for _, x := range m {
 		s = append(s, mconv.From(x))
@@ -31,12 +31,12 @@ func (b ChainBuilder) AddSimple(m ...mchain.SimpleMiddleware) ChainBuilder {
 	return b
 }
 
-func (b ChainBuilder) Handler(finalHandler mchain.Handler) ChainBuilder {
+func (b *ChainBuilder) Handler(finalHandler mchain.Handler) *ChainBuilder {
 	b.handler = finalHandler
 	return b
 }
 
-func (b ChainBuilder) Build() mchain.Handler {
+func (b *ChainBuilder) Build() mchain.Handler {
 	h := b.handler
 	if h == nil {
 		h = hconv.FromHttp(http.DefaultServeMux)
@@ -50,6 +50,6 @@ func (b ChainBuilder) Build() mchain.Handler {
 	return h
 }
 
-func (b ChainBuilder) BuildHttp(errorHandler func(error)) http.Handler {
+func (b *ChainBuilder) BuildHttp(errorHandler func(error)) http.Handler {
 	return hconv.ToHttp(b.Build(), errorHandler)
 }
