@@ -1,34 +1,28 @@
-package mchain
+package builder
 
 import (
 	"net/http"
 
+	"github.com/prasannavl/mchain"
 	"github.com/prasannavl/mchain/mconv"
 )
 
-type HttpMiddleware func(http.Handler) http.Handler
-type SimpleHttpMiddleware func(w http.ResponseWriter, r *http.Request, next http.Handler)
-
-type HttpChain struct {
-	Middlewares []HttpMiddleware
-}
-
 type HttpChainBuilder struct {
-	chain   HttpChain
+	chain   mchain.HttpChain
 	handler http.Handler
 }
 
-func CreateHttpBuilder(middlewares ...HttpMiddleware) HttpChainBuilder {
-	return HttpChainBuilder{HttpChain{middlewares}, nil}
+func CreateHttp(middlewares ...mchain.HttpMiddleware) HttpChainBuilder {
+	return HttpChainBuilder{mchain.HttpChain{middlewares}, nil}
 }
 
-func (b HttpChainBuilder) Add(m ...HttpMiddleware) HttpChainBuilder {
+func (b HttpChainBuilder) Add(m ...mchain.HttpMiddleware) HttpChainBuilder {
 	b.chain.Middlewares = append(b.chain.Middlewares, m...)
 	return b
 }
 
-func (b HttpChainBuilder) AddSimple(m ...SimpleHttpMiddleware) HttpChainBuilder {
-	s := make([]HttpMiddleware, 0, len(m))
+func (b HttpChainBuilder) AddSimple(m ...mchain.SimpleHttpMiddleware) HttpChainBuilder {
+	s := make([]mchain.HttpMiddleware, 0, len(m))
 	for _, x := range m {
 		s = append(s, mconv.HttpFrom(x))
 	}

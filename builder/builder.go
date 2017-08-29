@@ -1,28 +1,29 @@
-package mchain
+package builder
 
 import (
 	"net/http"
 
+	"github.com/prasannavl/mchain"
 	"github.com/prasannavl/mchain/hconv"
 	"github.com/prasannavl/mchain/mconv"
 )
 
 type ChainBuilder struct {
-	chain   Chain
-	handler Handler
+	chain   mchain.Chain
+	handler mchain.Handler
 }
 
-func CreateBuilder(middlewares ...Middleware) ChainBuilder {
-	return ChainBuilder{Chain{middlewares}, nil}
+func Create(middlewares ...mchain.Middleware) ChainBuilder {
+	return ChainBuilder{mchain.Chain{middlewares}, nil}
 }
 
-func (b ChainBuilder) Add(m ...Middleware) ChainBuilder {
+func (b ChainBuilder) Add(m ...mchain.Middleware) ChainBuilder {
 	b.chain.Middlewares = append(b.chain.Middlewares, m...)
 	return b
 }
 
-func (b ChainBuilder) AddSimple(m ...SimpleMiddleware) ChainBuilder {
-	s := make([]Middleware, 0, len(m))
+func (b ChainBuilder) AddSimple(m ...mchain.SimpleMiddleware) ChainBuilder {
+	s := make([]mchain.Middleware, 0, len(m))
 	for _, x := range m {
 		s = append(s, mconv.From(x))
 	}
@@ -30,12 +31,12 @@ func (b ChainBuilder) AddSimple(m ...SimpleMiddleware) ChainBuilder {
 	return b
 }
 
-func (b ChainBuilder) Handler(finalHandler Handler) ChainBuilder {
+func (b ChainBuilder) Handler(finalHandler mchain.Handler) ChainBuilder {
 	b.handler = finalHandler
 	return b
 }
 
-func (b ChainBuilder) Build() Handler {
+func (b ChainBuilder) Build() mchain.Handler {
 	h := b.handler
 	if h == nil {
 		h = hconv.FromHttp(http.DefaultServeMux)

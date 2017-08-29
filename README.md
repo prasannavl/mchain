@@ -43,7 +43,7 @@ func (f HandlerFunc) ServeHTTP(w http.ResponseWriter, r *http.Request) error {
 }
 ```
 
-Actually, that's the entire `mchain.go` file. Very simple. This allows clean error handling. Errors can be used to communicate error status code as well. A pattern that can be easily achieved with `HttpError` from simple error composers like [`prasannavl/goerror`](https://www.github.com/prasannavl/goerror)
+Actually, that's the entire `mchain.go` file along with std helpers for the same. Very simple. This allows clean error handling. Errors can be used to communicate error status code as well. A pattern that can be easily achieved with `HttpError` from simple error composers like [`prasannavl/goerror`](https://www.github.com/prasannavl/goerror)
 
 This aligns with Go's idiomatic way of error handling.
 
@@ -100,21 +100,21 @@ If you've used Negroni - you'll recognize that instantly. This is called using t
 func newAppHandler(host string) http.Handler {
 	c := appcontext.AppContext{Services: appcontext.Services{}}
 
-	return mchain.CreateBuilder(
+	return builder.Create(
 		// An existing http handler based middleware
 		mconv.FromHttp(c.HandlerWithContext, nil),
 		middleware.RequestContextInitHandler,
 		middleware.RequestLogHandler,
 		middleware.RequestDurationHandler,
 	).
-	Handler(mchain.HandlerFromHttp(CreateActionHandler(host))).
+	Handler(hconv.FromHttp(CreateActionHandler(host))).
 	BuildHttp(nil)
 }
 
 func newHttpAppHandler(host string) http.Handler {
 	c := appcontext.AppContext{Services: appcontext.Services{}}
 
-	return mchain.CreateHttpBuilder(
+	return builder.CreateHttp(
 		c.HandlerWithContext,
 		standardmiddleware.RequestContextInitHandler,
 		standardmiddleware.RequestLogHandler,
