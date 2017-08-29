@@ -24,7 +24,7 @@ func (b *HttpChainBuilder) Add(m ...mchain.HttpMiddleware) *HttpChainBuilder {
 func (b *HttpChainBuilder) AddSimple(m ...mchain.SimpleHttpMiddleware) *HttpChainBuilder {
 	s := make([]mchain.HttpMiddleware, 0, len(m))
 	for _, x := range m {
-		s = append(s, mconv.HttpFrom(x))
+		s = append(s, mconv.HttpFromSimple(x))
 	}
 	b.chain.Middlewares = append(b.chain.Middlewares, s...)
 	return b

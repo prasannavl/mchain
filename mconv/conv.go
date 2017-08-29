@@ -7,7 +7,7 @@ import (
 	"github.com/prasannavl/mchain/hconv"
 )
 
-func From(fn func(w http.ResponseWriter, r *http.Request, next mchain.Handler) error) mchain.Middleware {
+func FromSimple(fn func(w http.ResponseWriter, r *http.Request, next mchain.Handler) error) mchain.Middleware {
 	m := func(next mchain.Handler) mchain.Handler {
 		f := func(w http.ResponseWriter, r *http.Request) error {
 			return fn(w, r, next)
@@ -27,7 +27,7 @@ func ToSimple(middleware mchain.Middleware) (fn func(w http.ResponseWriter, r *h
 	return h
 }
 
-func HttpFrom(fn func(w http.ResponseWriter, r *http.Request, next http.Handler)) mchain.HttpMiddleware {
+func HttpFromSimple(fn func(w http.ResponseWriter, r *http.Request, next http.Handler)) mchain.HttpMiddleware {
 	m := func(next http.Handler) http.Handler {
 		f := func(w http.ResponseWriter, r *http.Request) {
 			fn(w, r, next)
