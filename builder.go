@@ -1,6 +1,11 @@
 package mchain
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/prasannavl/mchain/hconv"
+	"github.com/prasannavl/mchain/mconv"
+)
 
 type ChainBuilder struct {
 	chain   Chain
@@ -19,7 +24,7 @@ func (b ChainBuilder) Add(m ...Middleware) ChainBuilder {
 func (b ChainBuilder) AddSimple(m ...SimpleMiddleware) ChainBuilder {
 	s := make([]Middleware, 0, len(m))
 	for _, x := range m {
-		s = append(s, MiddlewareFrom(x))
+		s = append(s, mconv.From(x))
 	}
 	b.chain.Middlewares = append(b.chain.Middlewares, s...)
 	return b
@@ -33,7 +38,7 @@ func (b ChainBuilder) Handler(finalHandler Handler) ChainBuilder {
 func (b ChainBuilder) Build() Handler {
 	h := b.handler
 	if h == nil {
-		h = HandlerFromHttp(http.DefaultServeMux)
+		h = hconv.FromHttp(http.DefaultServeMux)
 	}
 	c := b.chain
 	mx := c.Middlewares
@@ -45,5 +50,5 @@ func (b ChainBuilder) Build() Handler {
 }
 
 func (b ChainBuilder) BuildHttp(errorHandler func(error)) http.Handler {
-	return HandlerToHttp(b.Build(), errorHandler)
+	return hconv.ToHttp(b.Build(), errorHandler)
 }

@@ -1,6 +1,10 @@
 package mchain
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/prasannavl/mchain/mconv"
+)
 
 type HttpMiddleware func(http.Handler) http.Handler
 type SimpleHttpMiddleware func(w http.ResponseWriter, r *http.Request, next http.Handler)
@@ -26,7 +30,7 @@ func (b HttpChainBuilder) Add(m ...HttpMiddleware) HttpChainBuilder {
 func (b HttpChainBuilder) AddSimple(m ...SimpleHttpMiddleware) HttpChainBuilder {
 	s := make([]HttpMiddleware, 0, len(m))
 	for _, x := range m {
-		s = append(s, HttpMiddlewareFrom(x))
+		s = append(s, mconv.HttpFrom(x))
 	}
 	b.chain.Middlewares = append(b.chain.Middlewares, s...)
 	return b

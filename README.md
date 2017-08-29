@@ -26,17 +26,17 @@ That's about it. It's even simpler than the very neat `alice` package. However, 
 The standard middleware pattern looks fine, however proves very difficult to chain error handling cleanly. So `mchain` provides this as the alternative middleware:
 
 ```go
-type Handler interface {
-	ServeHTTP(http.ResponseWriter, *http.Request) error
-}
-
-type HandlerFunc func(http.ResponseWriter, *http.Request) error
-
 type Middleware func(Handler) Handler
 
 type Chain struct {
 	Middlewares []Middleware
 }
+
+type Handler interface {
+	ServeHTTP(http.ResponseWriter, *http.Request) error
+}
+
+type HandlerFunc func(http.ResponseWriter, *http.Request) error
 
 func (f HandlerFunc) ServeHTTP(w http.ResponseWriter, r *http.Request) error {
 	return f(w, r)
@@ -58,7 +58,7 @@ I personally think somewhere on it's way - the standard library team got stuck i
 
 But thankfully, you don't have to choose. You can combine both :)
 
-`mchain` brings this pattern with almost no overhead. And it has a set of conversation functions that provide two way conversions between the standard `net/http` package, and `mchain`, like `MiddlewareFromHttp` and `MiddlewareToHttp`, `HandlerFromHttp`, and `HandlerToHttp` - that allows both to coexist, and mix and match both types of handlers.
+`mchain` brings this pattern with almost no overhead. And it has a set of conversation functions that provide two way conversions between the standard `net/http` package, and `mchain`, like `FromHttp` and `ToHttp` in the `mconv` sub-package for middlewares, `FromHttp`, and `ToHttp` in the `hconv` for handlers - that allows both to coexist, and mix and match both types of handlers.
 
 
 ### Pure Middleware
@@ -90,7 +90,7 @@ func(w http.ResponseWriter, r *http.Request, next *Handler) error {
 }
 ```
 
-If you've used Negroni - you'll recognize that instantly. This is called using the helper `MiddlewareFrom` that simply converts this pattern into the pure form without any extra overhead. Infact, this is also provided for pure http middleware (`HttpMiddlewareFrom`), so you can make it similar to negroni middleware.
+If you've used Negroni - you'll recognize that instantly. This is called using the helper `From` in the `mconv` sub-package that simply converts this pattern into the pure form without any extra overhead. Infact, this is also provided for pure http middleware (`HttpFrom` in `hconv`), so you can make it similar to negroni middleware.
 
 
 ### Example
@@ -102,7 +102,7 @@ func newAppHandler(host string) http.Handler {
 
 	return mchain.CreateBuilder(
 		// An existing http handler based middleware
-		mchain.MiddlewareFromHttp(c.HandlerWithContext, nil),
+		mconv.FromHttp(c.HandlerWithContext, nil),
 		middleware.RequestContextInitHandler,
 		middleware.RequestLogHandler,
 		middleware.RequestDurationHandler,
