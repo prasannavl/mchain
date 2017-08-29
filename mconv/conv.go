@@ -17,12 +17,9 @@ func FromSimple(fn func(w http.ResponseWriter, r *http.Request, next mchain.Hand
 	return m
 }
 
-func ToSimple(middleware mchain.Middleware) (fn func(w http.ResponseWriter, r *http.Request, next mchain.Handler) error) {
+func ToSimple(m mchain.Middleware) (fn func(w http.ResponseWriter, r *http.Request, next mchain.Handler) error) {
 	h := func(w http.ResponseWriter, r *http.Request, next mchain.Handler) error {
-		hx := mchain.HandlerFunc(func(w http.ResponseWriter, r *http.Request) error {
-			return next.ServeHTTP(w, r)
-		})
-		return middleware(hx).ServeHTTP(w, r)
+		return m(next).ServeHTTP(w, r)
 	}
 	return h
 }
@@ -37,12 +34,9 @@ func HttpFromSimple(fn func(w http.ResponseWriter, r *http.Request, next http.Ha
 	return m
 }
 
-func ToHttpSimple(middleware mchain.HttpMiddleware) (fn func(w http.ResponseWriter, r *http.Request, next http.Handler)) {
+func ToHttpSimple(m mchain.HttpMiddleware) (fn func(w http.ResponseWriter, r *http.Request, next http.Handler)) {
 	h := func(w http.ResponseWriter, r *http.Request, next http.Handler) {
-		hx := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			next.ServeHTTP(w, r)
-		})
-		middleware(hx).ServeHTTP(w, r)
+		m(next).ServeHTTP(w, r)
 	}
 	return h
 }
@@ -57,16 +51,18 @@ func ToHttp(m mchain.Middleware, errorHandler func(error)) func(http.Handler) ht
 
 func FromHttp(h func(http.Handler) http.Handler, innerErrorHandler func(error)) mchain.Middleware {
 	hh := func(hx mchain.Handler) mchain.Handler {
-		handler := hconv.ToHttp(hx, innerErrorHandler)
-		return hconv.FromHttp(handler)
+		httpHandler := hconv.ToHttp(hx, innerErrorHandler)
+		nextHttpHandler := h(httpHandler)
+		return hconv.FromHttp(nextHttpHandler)
 	}
 	return mchain.Middleware(hh)
 }
 
 func FromHttpRecoverable(h func(http.Handler) http.Handler, innerErrorHandler func(error)) mchain.Middleware {
 	hh := func(hx mchain.Handler) mchain.Handler {
-		handler := hconv.ToHttp(hx, innerErrorHandler)
-		return hconv.FromHttpRecoverable(handler)
+		httpHandler := hconv.ToHttp(hx, innerErrorHandler)
+		nextHttpHandler := h(httpHandler)
+		return hconv.FromHttpRecoverable(nextHttpHandler)
 	}
 	return mchain.Middleware(hh)
 }
