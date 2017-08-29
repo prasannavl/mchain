@@ -37,7 +37,7 @@ func HttpFrom(fn func(w http.ResponseWriter, r *http.Request, next http.Handler)
 	return m
 }
 
-func HttpToSimple(middleware mchain.HttpMiddleware) (fn func(w http.ResponseWriter, r *http.Request, next http.Handler)) {
+func ToHttpSimple(middleware mchain.HttpMiddleware) (fn func(w http.ResponseWriter, r *http.Request, next http.Handler)) {
 	h := func(w http.ResponseWriter, r *http.Request, next http.Handler) {
 		hx := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			next.ServeHTTP(w, r)
