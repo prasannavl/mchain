@@ -5,7 +5,6 @@ import (
 
 	"github.com/prasannavl/mchain"
 	"github.com/prasannavl/mchain/hconv"
-	"github.com/prasannavl/mchain/mconv"
 )
 
 type ChainBuilder struct {
@@ -19,15 +18,6 @@ func Create(middlewares ...mchain.Middleware) ChainBuilder {
 
 func (b *ChainBuilder) Add(m ...mchain.Middleware) *ChainBuilder {
 	b.chain.Middlewares = append(b.chain.Middlewares, m...)
-	return b
-}
-
-func (b *ChainBuilder) AddSimple(m ...mchain.SimpleMiddleware) *ChainBuilder {
-	s := make([]mchain.Middleware, 0, len(m))
-	for _, x := range m {
-		s = append(s, mconv.FromSimple(x))
-	}
-	b.chain.Middlewares = append(b.chain.Middlewares, s...)
 	return b
 }
 

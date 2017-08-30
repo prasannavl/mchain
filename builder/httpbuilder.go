@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/prasannavl/mchain"
-	"github.com/prasannavl/mchain/mconv"
 )
 
 type HttpChainBuilder struct {
@@ -18,15 +17,6 @@ func CreateHttp(middlewares ...mchain.HttpMiddleware) HttpChainBuilder {
 
 func (b *HttpChainBuilder) Add(m ...mchain.HttpMiddleware) *HttpChainBuilder {
 	b.chain.Middlewares = append(b.chain.Middlewares, m...)
-	return b
-}
-
-func (b *HttpChainBuilder) AddSimple(m ...mchain.SimpleHttpMiddleware) *HttpChainBuilder {
-	s := make([]mchain.HttpMiddleware, 0, len(m))
-	for _, x := range m {
-		s = append(s, mconv.HttpFromSimple(x))
-	}
-	b.chain.Middlewares = append(b.chain.Middlewares, s...)
 	return b
 }
 
