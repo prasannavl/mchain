@@ -55,7 +55,7 @@ func FromHttp(h func(http.Handler) http.Handler, innerErrorHandler func(error)) 
 		nextHttpHandler := h(httpHandler)
 		return hconv.FromHttp(nextHttpHandler)
 	}
-	return mchain.Middleware(hh)
+	return hh
 }
 
 func FromHttpRecoverable(h func(http.Handler) http.Handler, innerErrorHandler func(error)) mchain.Middleware {
@@ -64,5 +64,5 @@ func FromHttpRecoverable(h func(http.Handler) http.Handler, innerErrorHandler fu
 		nextHttpHandler := h(httpHandler)
 		return hconv.FromHttpRecoverable(nextHttpHandler)
 	}
-	return mchain.Middleware(hh)
+	return hh
 }
