@@ -90,7 +90,9 @@ func(w http.ResponseWriter, r *http.Request, next *Handler) error {
 }
 ```
 
-If you've used Negroni - you'll recognize that instantly. This is called using the helper `From` in the `mconv` sub-package that simply converts this pattern into the pure form. Infact, this is also provided for pure http middleware (`HttpFrom` in `hconv`), so you can make it similar to negroni middleware.
+If you've used Negroni - you'll recognize that instantly. This is called using the helper `FromSimple` in the `mconv` sub-package that simply converts this pattern into the pure form. Infact, this is also provided for pure http middleware (`HttpFromSimple` in `hconv`), so you can make it similar to negroni middleware.
+
+If you however, don't like this, there's no need to use this. This is nothing more than a simple type alias.
 
 
 ### Example

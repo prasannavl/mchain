@@ -25,7 +25,7 @@ func (f HandlerFunc) ServeHTTP(w http.ResponseWriter, r *http.Request) error {
 // Std
 
 type HttpMiddleware = func(http.Handler) http.Handler
-type SimpleHttpMiddleware = func(w http.ResponseWriter, r *http.Request, next http.Handler)
+type HttpSimpleMiddleware = func(w http.ResponseWriter, r *http.Request, next http.Handler)
 
 type HttpChain struct {
 	Middlewares []HttpMiddleware
