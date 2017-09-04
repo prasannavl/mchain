@@ -3,6 +3,8 @@ package builder
 import (
 	"net/http"
 
+	"github.com/prasannavl/goerror/httperror"
+
 	"github.com/prasannavl/mchain"
 	"github.com/prasannavl/mchain/hconv"
 )
@@ -29,7 +31,7 @@ func (b *ChainBuilder) Handler(finalHandler mchain.Handler) *ChainBuilder {
 func (b *ChainBuilder) Build() mchain.Handler {
 	h := b.handler
 	if h == nil {
-		h = hconv.FromHttp(http.DefaultServeMux)
+		h = mchain.HandlerFunc(defaultHandler)
 	}
 	c := b.chain
 	mx := c.Middlewares
@@ -42,4 +44,8 @@ func (b *ChainBuilder) Build() mchain.Handler {
 
 func (b *ChainBuilder) BuildHttp(errorHandler func(error)) http.Handler {
 	return hconv.ToHttp(b.Build(), errorHandler)
+}
+
+func defaultHandler(w http.ResponseWriter, r *http.Request) error {
+	return httperror.New(http.StatusNotFound, "", false)
 }
