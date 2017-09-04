@@ -47,5 +47,9 @@ func (b *ChainBuilder) BuildHttp(errorHandler func(error)) http.Handler {
 }
 
 func defaultHandler(w http.ResponseWriter, r *http.Request) error {
+	// Send with an empty message, so the default pipeline doesn't
+	// even touch the content. Just the status code. 
+	// And set end=false, so that other middlewares that can take the hint
+	// optionally can and continue instead of halting entirely.
 	return httperror.New(http.StatusNotFound, "", false)
 }
