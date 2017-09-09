@@ -6,17 +6,17 @@ import (
 	"github.com/prasannavl/mchain"
 )
 
-func FuncToHttp(h mchain.HandlerFunc, errorHandler func(error)) http.HandlerFunc {
+func FuncToHttp(h mchain.HandlerFunc, errorHandler mchain.ErrorHandler) http.HandlerFunc {
 	hh := func(w http.ResponseWriter, r *http.Request) {
 		err := h.ServeHTTP(w, r)
 		if err != nil && errorHandler != nil {
-			errorHandler(err)
+			errorHandler(err, w, r)
 		}
 	}
 	return http.HandlerFunc(hh)
 }
 
-func ToHttp(h mchain.Handler, errorHandler func(error)) http.Handler {
+func ToHttp(h mchain.Handler, errorHandler mchain.ErrorHandler) http.Handler {
 	hf := mchain.HandlerFunc(h.ServeHTTP)
 	stdHf := FuncToHttp(hf, errorHandler)
 	return http.Handler(stdHf)

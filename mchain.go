@@ -22,6 +22,8 @@ func (f HandlerFunc) ServeHTTP(w http.ResponseWriter, r *http.Request) error {
 	return f(w, r)
 }
 
+type ErrorHandler = func(error, http.ResponseWriter, *http.Request)
+
 // Std
 
 type HttpMiddleware = func(http.Handler) http.Handler
