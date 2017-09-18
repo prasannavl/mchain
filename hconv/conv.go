@@ -6,7 +6,7 @@ import (
 	"github.com/prasannavl/mchain"
 )
 
-func FuncToHttp(h mchain.HandlerFunc, errorHandler mchain.ErrorHandler) http.HandlerFunc {
+func ToHttpFunc(h mchain.HandlerFunc, errorHandler mchain.ErrorHandler) http.HandlerFunc {
 	hh := func(w http.ResponseWriter, r *http.Request) {
 		err := h.ServeHTTP(w, r)
 		if err != nil && errorHandler != nil {
@@ -18,34 +18,23 @@ func FuncToHttp(h mchain.HandlerFunc, errorHandler mchain.ErrorHandler) http.Han
 
 func ToHttp(h mchain.Handler, errorHandler mchain.ErrorHandler) http.Handler {
 	hf := mchain.HandlerFunc(h.ServeHTTP)
-	stdHf := FuncToHttp(hf, errorHandler)
+	stdHf := ToHttpFunc(hf, errorHandler)
 	return http.Handler(stdHf)
 }
 
-func FuncFromHttp(h http.HandlerFunc) mchain.HandlerFunc {
-	hh := func(w http.ResponseWriter, r *http.Request) error {
-		h.ServeHTTP(w, r)
-		return nil
-	}
-	return mchain.HandlerFunc(hh)
-}
-
-func FuncFromHttpRecoverable(h http.HandlerFunc) mchain.HandlerFunc {
+func FromHttpFunc(h http.HandlerFunc, recoverPanic bool) mchain.Handler {
 	hh := func(w http.ResponseWriter, r *http.Request) error {
 		var err error
-		defer mchain.RecoverIntoError(&err)
+		if recoverPanic {
+			defer mchain.RecoverIntoError(&err)
+		}
 		h.ServeHTTP(w, r)
 		return err
 	}
 	return mchain.HandlerFunc(hh)
 }
 
-func FromHttp(h http.Handler) mchain.Handler {
-	hh := FuncFromHttp(http.HandlerFunc(h.ServeHTTP))
-	return mchain.Handler(hh)
-}
-
-func FromHttpRecoverable(h http.Handler) mchain.Handler {
-	hh := FuncFromHttpRecoverable(http.HandlerFunc(h.ServeHTTP))
+func FromHttp(h http.Handler, recoverPanic bool) mchain.Handler {
+	hh := FromHttpFunc(http.HandlerFunc(h.ServeHTTP), recoverPanic)
 	return mchain.Handler(hh)
 }

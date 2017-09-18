@@ -34,35 +34,26 @@ func HttpFromSimple(fn mchain.HttpSimpleMiddleware) mchain.HttpMiddleware {
 	return m
 }
 
-func ToHttpSimple(m mchain.HttpMiddleware) mchain.HttpSimpleMiddleware {
+func HttpToSimple(m mchain.HttpMiddleware) mchain.HttpSimpleMiddleware {
 	h := func(w http.ResponseWriter, r *http.Request, next http.Handler) {
 		m(next).ServeHTTP(w, r)
 	}
 	return h
 }
 
-func ToHttp(m mchain.Middleware, errorHandler mchain.ErrorHandler) mchain.HttpMiddleware {
+func ToHttp(m mchain.Middleware, errorHandler mchain.ErrorHandler, recoverPanic bool) mchain.HttpMiddleware {
 	hh := func(hx http.Handler) http.Handler {
-		handler := hconv.FromHttp(hx)
+		handler := hconv.FromHttp(hx, recoverPanic)
 		return hconv.ToHttp(m(handler), errorHandler)
 	}
 	return hh
 }
 
-func FromHttp(h mchain.HttpMiddleware, innerErrorHandler mchain.ErrorHandler) mchain.Middleware {
+func FromHttp(h mchain.HttpMiddleware, innerErrorHandler mchain.ErrorHandler, recoverPanic bool) mchain.Middleware {
 	hh := func(hx mchain.Handler) mchain.Handler {
 		httpHandler := hconv.ToHttp(hx, innerErrorHandler)
 		nextHttpHandler := h(httpHandler)
-		return hconv.FromHttp(nextHttpHandler)
-	}
-	return hh
-}
-
-func FromHttpRecoverable(h mchain.HttpMiddleware, innerErrorHandler mchain.ErrorHandler) mchain.Middleware {
-	hh := func(hx mchain.Handler) mchain.Handler {
-		httpHandler := hconv.ToHttp(hx, innerErrorHandler)
-		nextHttpHandler := h(httpHandler)
-		return hconv.FromHttpRecoverable(nextHttpHandler)
+		return hconv.FromHttp(nextHttpHandler, recoverPanic)
 	}
 	return hh
 }

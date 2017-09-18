@@ -2,6 +2,4 @@ package mchain
 
 import "testing"
 
-func TestMChain(t *testing.T) {
-
-}
+func TestMChain(t *testing.T) {}
