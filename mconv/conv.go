@@ -41,17 +41,17 @@ func HttpToSimple(m mchain.HttpMiddleware) mchain.HttpSimpleMiddleware {
 	return h
 }
 
-func ToHttp(m mchain.Middleware, errorHandler mchain.ErrorHandler, recoverPanic bool) mchain.HttpMiddleware {
+func ToHttp(m mchain.Middleware, errorHandler mchain.ErrorHandler, recoverTailPanic bool) mchain.HttpMiddleware {
 	hh := func(hx http.Handler) http.Handler {
-		handler := hconv.FromHttp(hx, recoverPanic)
+		handler := hconv.FromHttp(hx, recoverTailPanic)
 		return hconv.ToHttp(m(handler), errorHandler)
 	}
 	return hh
 }
 
-func FromHttp(h mchain.HttpMiddleware, innerErrorHandler mchain.ErrorHandler, recoverPanic bool) mchain.Middleware {
+func FromHttp(h mchain.HttpMiddleware, tailErrorHandler mchain.ErrorHandler, recoverPanic bool) mchain.Middleware {
 	hh := func(hx mchain.Handler) mchain.Handler {
-		httpHandler := hconv.ToHttp(hx, innerErrorHandler)
+		httpHandler := hconv.ToHttp(hx, tailErrorHandler)
 		nextHttpHandler := h(httpHandler)
 		return hconv.FromHttp(nextHttpHandler, recoverPanic)
 	}
