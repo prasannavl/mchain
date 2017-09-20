@@ -6,10 +6,15 @@ import (
 	"github.com/prasannavl/mchain"
 )
 
+var nopErrHandler = func(error, http.ResponseWriter, *http.Request) {}
+
 func ToHttpFunc(h mchain.HandlerFunc, errorHandler mchain.ErrorHandler) http.HandlerFunc {
+	if errorHandler == nil {
+		errorHandler = nopErrHandler
+	}
 	hh := func(w http.ResponseWriter, r *http.Request) {
 		err := h.ServeHTTP(w, r)
-		if err != nil && errorHandler != nil {
+		if err != nil {
 			errorHandler(err, w, r)
 		}
 	}
