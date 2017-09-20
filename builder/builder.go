@@ -51,5 +51,5 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) error {
 	// even touch the content. Just the status code.
 	// And set end=false, so that other middlewares that can take the hint
 	// optionally can and continue instead of halting entirely.
-	return httperror.New(http.StatusNotFound, "", false)
+	return httperror.New(http.StatusNotFound, "handler not found", false)
 }
