@@ -32,9 +32,8 @@ func (b *HttpChainBuilder) Build() http.Handler {
 	}
 	c := b.chain
 	mx := c.Middlewares
-	mLen := len(mx)
-	for i := range mx {
-		h = c.Middlewares[mLen-1-i](h)
+	for i := len(mx) - 1; i >= 0; i-- {
+		h = mx[i](h)
 	}
 	return h
 }

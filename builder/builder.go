@@ -35,9 +35,8 @@ func (b *ChainBuilder) Build() mchain.Handler {
 	}
 	c := b.chain
 	mx := c.Middlewares
-	mLen := len(mx)
-	for i := range mx {
-		h = c.Middlewares[mLen-1-i](h)
+	for i := len(mx) - 1; i >= 0; i-- {
+		h = mx[i](h)
 	}
 	return h
 }
