@@ -9,6 +9,8 @@ PS: `Read the source, Luke` - it's tiny.
 
 `go get -u github.com/prasannavl/mchain`
 
+(See `Related` section below of libraries as real-life examples)
+
 ## Standard middlewares
 
 ```go
