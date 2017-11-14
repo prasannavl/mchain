@@ -200,6 +200,8 @@ Now, the errors can be handled up the middleware chain with an error handler tha
 
 While standards are not set in stone, standards are great. I love standards. And standards evolve. But not without experimentation. Meanwhile, I do the best I can to keep things composable and interoperable :) 
 
+And if you're one of those who want perfect standards, know that using `net/http` will voilate `W3C HTTP standards` in so many places, because it just handles error internally and has no way to communicate them to it's parent handlers. 
+
 ## Related
 
 - **fileserver:** https://github.com/prasannavl/go-gluons/blob/master/http/fileserver - Reimplementation of Go's http file server that properly returns errors instead of having it's logic inter-mingled. This allows nice directory listing handling, and error handling with ease.  
