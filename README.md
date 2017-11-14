@@ -196,6 +196,10 @@ func RequestIDMustInitHandler(next mchain.Handler) mchain.Handler {
 
 Now, the errors can be handled up the middleware chain with an error handler that knows how to format the error the way it has to. Works naturally with the chain, without thinking about how to handle the error in every aspect of the middleware - when in doubt, pass it up the chain.
 
+## But this differs from the `net/http` standard, and it's a sin!
+
+While standards are not set in stone, standards are great. I love standards. And standards evolve. But not without experimentation. Meanwhile, I do the best I can to keep things composable and interoperable :) 
+
 ## Related
 
 - **fileserver:** https://github.com/prasannavl/go-gluons/blob/master/http/fileserver - Reimplementation of Go's http file server that properly returns errors instead of having it's logic inter-mingled. This allows nice directory listing handling, and error handling with ease.  
