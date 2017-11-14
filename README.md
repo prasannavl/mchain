@@ -198,7 +198,7 @@ Now, the errors can be handled up the middleware chain with an error handler tha
 
 ## Related
 
-- **fileserver:** https://github.com/prasannavl/go-gluons/blob/master/http/fileserver - Go's http file server that properly returns errors instead of having it's logic inter-mingled. This allows nice directory listing handling, and error handling with ease.  
+- **fileserver:** https://github.com/prasannavl/go-gluons/blob/master/http/fileserver - Reimplementation of Go's http file server that properly returns errors instead of having it's logic inter-mingled. This allows nice directory listing handling, and error handling with ease.  
 - **handlerutils:** https://github.com/prasannavl/go-gluons/tree/master/http/handlerutils - Handler helpers that ease a lot of boiler plate for common cases.
 - **chainutils:** https://github.com/prasannavl/go-gluons/tree/master/http/chainutils - Middleware chaining helpers that ease boilerplate.
 - **middleware:** https://github.com/prasannavl/go-gluons/tree/master/http/middleware - Some middlewares that are helpful.  
