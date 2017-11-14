@@ -144,7 +144,8 @@ func CreateActionHandler(host string) http.Handler {
 
 ## Why return errors along with the handler?
 
-Consider a similar middleware setup to above example
+See `fileserver` in the related section for a real-life example.
+Consider a similar middleware setup to above example,
 
 With `net/http` middleware chain:
 
@@ -193,10 +194,10 @@ func RequestIDMustInitHandler(next mchain.Handler) mchain.Handler {
 
 Now, the errors can be handled up the middleware chain with an error handler that knows how to format the error the way it has to. Works naturally with the chain, without thinking about how to handle the error in every aspect of the middleware - when in doubt, pass it up the chain.
 
-# Related
+## Related
 
-**mroute:** https://github.com/prasannavl/mroute - A fork of goji router for mchain with addons.  
-**mrouter:** https://github.com/prasannavl/mrouter - A fork of httprouter for mchain.  
-**fileserver:** https://github.com/prasannavl/go-gluons/blob/master/http/fileserver - Go's http file server that properly returns errors instead of having it's logic inter-mingled. This allows nice directory listing handling, and error handling with ease.  
- **handlerutils:** https://github.com/prasannavl/go-gluons/tree/master/http/handlerutils - Handler helpers that ease a lot of boiler plate for common cases.  
- **middleware:** https://github.com/prasannavl/go-gluons/tree/master/http/middleware - Some middlewares that are helpful.  
+- **fileserver:** https://github.com/prasannavl/go-gluons/blob/master/http/fileserver - Go's http file server that properly returns errors instead of having it's logic inter-mingled. This allows nice directory listing handling, and error handling with ease.  
+- **handlerutils:** https://github.com/prasannavl/go-gluons/tree/master/http/handlerutils - Handler helpers that ease a lot of boiler plate for common cases.  
+- **middleware:** https://github.com/prasannavl/go-gluons/tree/master/http/middleware - Some middlewares that are helpful.  
+- **mroute:** https://github.com/prasannavl/mroute - A fork of goji router for mchain with addons.  
+- **mrouter:** https://github.com/prasannavl/mrouter - A fork of httprouter for mchain.  
