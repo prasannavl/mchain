@@ -2,7 +2,7 @@
 
 A super tiny go package that handles middleware chaining in it's most minimal form. 
 
-`Read the source, Luke` - it's tiny.  
+**Documentation:** `Read the source, Luke` - it's tiny.  
 (Start with `mchain.go` and then `builder.go` - That should conceptually be everything)
 
 ## Get
