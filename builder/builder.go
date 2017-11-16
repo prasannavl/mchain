@@ -3,7 +3,7 @@ package builder
 import (
 	"net/http"
 
-	"github.com/prasannavl/goerror/httperror"
+	"github.com/prasannavl/go-errors/httperror"
 
 	"github.com/prasannavl/mchain"
 	"github.com/prasannavl/mchain/hconv"
