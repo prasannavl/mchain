@@ -200,7 +200,7 @@ Now, the errors can be handled up the middleware chain with an error handler tha
 
 While standards are not set in stone, standards are great. I love standards. And standards evolve. But not without experimentation. Meanwhile, I do the best I can to keep things composable and interoperable :) 
 
-And if you're one of those who want perfect standards, know that using `net/http` will voilate `W3C HTTP standards` in so many places, because it just handles error internally and has no way to communicate them to it's parent handlers. 
+And if you're one of those who want perfect standards, it might be helpful to be aware that `net/http` itself does make you voilate `W3C HTTP standards` in a few places depending on how you use it, because it just handles a few errors internally and has no way to communicate them to it's parent handlers. 
 
 ## Related
 
