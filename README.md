@@ -21,7 +21,7 @@ type HttpChain struct {
 }
 ```
 
-That's about it. It's even simpler than the very neat `alice` package. However, the HttpChain provides no `Append`, `Extend` like methods. They are cleanly separated into a builder - `HttpChainBuilder`, that provides all the composition. So, now the `Middlewares` field is public, and `HttpChain` can be transparently passed around, cloned, extended at will.
+That's about it. It's even simpler than the very neat `alice` package. However, the HttpChain provides no `Append`, `Extend` like methods. They are cleanly separated into a builder - `HttpChainBuilder`, that provides all the composition. So, now the `Middlewares` field is public, and `HttpChain` can be transparently passed around, cloned, extended at will just using slicing primitives.
 
 ## mchain middlewares
 
