@@ -211,3 +211,10 @@ And if you're one of those who want perfect standards, it might be helpful to be
 - **mroute:** https://github.com/prasannavl/mroute - A fork of goji router for mchain with addons.  
 - **mrouter:** https://github.com/prasannavl/mrouter - A fork of httprouter for mchain.  
 - **hostrouter:** https://github.com/prasannavl/go-gluons/blob/master/http/hostrouter/ - A router that handles hosts switching between the most efficient representations on the fly.
+
+Say thanks!
+---
+
+If this project helped you save time, headaches, or push the boundaries of earth, I do appreciate a coffee as thanks! :smiley:. You may buy me one here, should you wish:
+
+[![PayPalDonate](https://www.paypalobjects.com/webstatic/i/logo/rebrand/ppcom.svg)](https://www.paypal.me/prasannavl)
