@@ -212,9 +212,26 @@ And if you're one of those who want perfect standards, it might be helpful to be
 - **mrouter:** https://github.com/prasannavl/mrouter - A fork of httprouter for mchain.  
 - **hostrouter:** https://github.com/prasannavl/go-gluons/blob/master/http/hostrouter/ - A router that handles hosts switching between the most efficient representations on the fly.
 
+License
+---
+
+This project is licensed under either of the following, at your choice:
+
+* Apache License, Version 2.0, ([LICENSE-APACHE](LICENSE-APACHE) or [https://www.apache.org/licenses/LICENSE-2.0](https://www.apache.org/licenses/LICENSE-2.0))
+* GPL 3.0 license ([LICENSE-GPL](LICENSE-GPL) or [https://opensource.org/licenses/GPL-3.0](https://opensource.org/licenses/GPL-3.0))
+
+
 Say thanks!
 ---
 
 If this project helped you save time, headaches, or push the boundaries of earth, I do appreciate a coffee as thanks! :smiley:. You may buy me one here, should you wish:
 
-[![PayPalDonate](https://www.paypalobjects.com/webstatic/i/logo/rebrand/ppcom.svg)](https://www.paypal.me/prasannavl)
+[![Donate-PayPal](https://www.paypalobjects.com/webstatic/i/logo/rebrand/ppcom.svg)](https://www.paypal.me/prasannavl)
+
+
+
+Code of Conduct
+---
+
+Contribution to the LiquidState project is organized under the terms of the Contributor Covenant, and as such the maintainer [@prasannavl](https://github.com/prasannavl) promises to intervene to uphold that code of conduct.
+
